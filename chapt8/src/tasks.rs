@@ -68,3 +68,26 @@ pub fn task1(data: &[i32]) -> Option<Task1> {
         mode: mode(data),
     })
 }
+
+fn pig_latin(word: &str) -> String {
+    match word.chars().next() {
+        Some(c) if is_vowel(c) => format!("{}-hay", word),
+        Some(c) => {
+            let rest: String = word.chars().skip(1).collect();
+            format!("{}-{}ay", rest, c)
+        }
+        None => String::new(),
+    }
+}
+
+fn is_vowel(c: char) -> bool {
+    matches!(c, 'a' | 'e' | 'i' | 'o' | 'u' | 'A' | 'E' | 'I' | 'O' | 'U')
+}
+
+pub fn task2(phrase: &str) -> String {
+    phrase
+        .split_whitespace()
+        .map(pig_latin)
+        .collect::<Vec<_>>()
+        .join(" ")
+}
